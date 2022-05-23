@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +8,6 @@
   <meta name="description" content="Testing Visual Studio Code Extensions">
   <link rel="stylesheet" type="text/css" href="/basic.css">
 </head>
-
 <body>
   <div>
     <h1>
@@ -50,7 +48,7 @@
     </p>
     <script src="https://gist.github.com/ryanluker/bba7808e3b1bbd5fe33da8936731ec73.js"></script>
     <noscript>
-      <textarea disabled>
+      <pre>
         import * as assert from "assert";
         import * as fs from "fs";
         
@@ -73,7 +71,7 @@
             fakeConfig,
           );
         });
-      </textarea>
+      </pre>
     </noscript>
     <p>
       Let' break this example up a bit so we can understand the 3 stages of the module mocking.
@@ -82,21 +80,21 @@
       Next we see us changing the functionality of the <b>readFile</b>.
     </p>
     <p>
-      After this point any call to <b>fs.readFile</b> in any code flow, we really only care about the functionality under test
-      though, will utilise the test function defined just above.
+      After this point any call to <b>fs.readFile</b> in any code flow, 
+      we really only care about the functionality under test though, will utilise the test function defined just above.
       This state will persist for the rest of test case until the teardown is called and restores the stored original
       functionality.
     </p>
     <p>
-      You can find this and more mocking examples 
+      You can find this and more mocking examples
       <a href="https://github.com/ryanluker/vscode-coverage-gutters/pull/218/files">here</a>.
     </p>
     <p>
-      Wrapping up, we see that using the node module caching allows us to “swap” out functionality of specific modules for
-      mock flows that help us verify code under test. This clean approach of storing the original functionality, modifying
-      the functionality with a mock and finally restoring the module to an original state, feels like quick a succinct
-      pattern. Also it allows us to accomplish our main goal of testing exactly the conditional nuance we want in each
-      test case.
+      Wrapping up, we see that using the node module caching allows us to “swap” out functionality of 
+      specific modules for mock flows that help us verify code under test. This clean approach of storing
+      the original functionality, modifying the functionality with a mock and finally restoring the module to an
+      original state, feels like quick a succinct pattern. Also it allows us to accomplish our main goal of testing
+      exactly the conditional nuance we want in each test case.
     </p>
     <p>
       I love to discuss technical implementations so drop a comment in the
@@ -123,5 +121,4 @@
     </ol>
   </article>
 </body>
-
 </html>
