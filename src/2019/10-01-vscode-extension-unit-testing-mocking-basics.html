@@ -20,14 +20,15 @@
       So when I started looking into adding proper unit tests to my vscode extension, 
       I surprisingly had quite a difficult time finding something that would work gracefully 
       with vscode’s test harness. Seeming I have also been tinkering with go and the absolutely 
-      fantastic gitbook <a href="https://quii.gitbook.io/learn-go-with-tests/">learn-go-with-tests</a>, 
-      I decided to try my hand at creating a simple mocking structure for 
-      <a href="https://github.com/ryanluker/vscode-coverage-gutters">vscode-coverage-gutters</a>. 
-      This was in contrast to using something established like <a href="https://sinonjs.org">sinon</a>. 
+      fantastic gitbook <abbr>learn-go-with-tests</abbr><sup><a href="/#1">1</a></sup>, 
+      I decided to try my hand at creating a simple mocking structure for <abbr>vscode-coverage-gutters</abbr><sup><a href="/#2">2</a></sup>. 
+      This was in contrast to using something established like <abbr>sinon</abbr><sup><a href="/#3">3</a></sup>. 
       Big warning before I dive in though, this implementation works well for this specific use case but should 
       not be taken as vscode extension testing gospel!
     </p>
-    <p>Let’s quickly breakdown the problem before we go into our very basic mocking implementation.</p>
+    <p>
+      Let’s quickly breakdown the problem before we go into our very basic mocking implementation.
+    </p>
     <ol>
       <li>We need a way to mock module functionality that are used inside our extension (vscode, requests, etc).</li>
       <li>We need to swap the current functionality of the module with our test expectation</li>
@@ -36,35 +37,19 @@
     <p>
       Alright, with our requirements outlined let’s dive in! The first critical piece of understanding is how we 
       can mock modules inside the test case without directly affecting the piece of code under test. This is where 
-      having an understanding of the nodejs import 
-      <a href="https://nodejs.org/api/modules.html#modules_caching">caching system</a> 
+      having an understanding of the nodejs import <abbr>caching system<sup><a href="/#4">4</a></sup></abbr>
       comes into play. Using the cache ,to effect extension wide changes, we can do something like this for mocking 
       the <code>fs.readFile</code>.
     </p>
-    <code>
-      import * as assert from "assert";
-      import * as fs from "fs";
+    <script src="https://gist.github.com/ryanluker/bba7808e3b1bbd5fe33da8936731ec73.js"></script>
 
-      // Original functions
-      const readFile = fs.readFile;
-
-      teardown(function() {
-          (fs as any).readFile = readFile;
-      });
-
-      test("#load: Should reject when readFile returns an error @unit", function(done) {
-          const readFile = function(path: string, cb) {
-              assert.equal(path, "pathtofile");
-              const error: NodeJS.ErrnoException = new Error("could not read from fs");
-              return cb(error, Buffer.from(""));
-          };
-          (fs as any).readFile = readFile;
-
-          const coverage = new Coverage(
-              fakeConfig,
-          );
-      });
-    </code>
     <a href="https://github.com/ryanluker/luker.dev/discussions/13">Discussion</a>
+    
+    <ol>
+      <li>learn-go-with-tests: <a href="https://quii.gitbook.io/learn-go-with-tests/" id="1">https://quii.gitbook.io/learn-go-with-tests/</a></li>
+      <li>vscode-coverage-gutters: <a href="https://github.com/ryanluker/vscode-coverage-gutters" id="2">https://github.com/ryanluker/vscode-coverage-gutters</li>
+      <li>SinonJS: <a href="https://sinonjs.org" id="3">https://sinonjs.org</a></li>
+      <li>Caching System: <a href="https://nodejs.org/api/modules.html#modules_caching" id="4">https://nodejs.org/api/modules.html#modules_caching</a></li>
+    </ol>
   </body>
 </html>
