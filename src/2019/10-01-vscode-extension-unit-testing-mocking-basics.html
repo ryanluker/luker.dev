@@ -14,8 +14,11 @@
       <a href="/home">luker.dev</a>
     </h1>
   </div>
+  <hr>
   <article>
-    <h3>How to unit test vscode extensions with basic mocks</h3>
+    <h3 id="How-to-unit-test-vscode-extensions-with-basic-mocks">
+      How to unit test vscode extensions with basic mocks
+    </h3>
     <p>
       One of the major tools in any testers toolbelt is the mighty module mock.
       So when I started looking into adding proper unit tests to my vscode extension,
@@ -23,10 +26,10 @@
       with vscode's test harness.
 
       Seeming I have also been tinkering with go and the absolutely
-      fantastic gitbook <b>learn-go-with-tests:<a href="#1">1</a></b>,
+      fantastic gitbook <b>learn-go-with-tests <a href="#1">[ 1 ]</a></b>,
       I decided to try my hand at creating a simple mocking structure for
-      <b>vscode-coverage-gutters:<a href="#2">2</a></b>.
-      This was in contrast to using something established like <b>sinon:<sup><a href="#3">3</a></b>.
+      <b>vscode-coverage-gutters <a href="#2">[ 2 ]</a></b>.
+      This was in contrast to using something established like <b>sinon <a href="#3">[ 3 ]</a></b>.
 
       Big warning before I dive in though, this implementation works well for this specific use case but should
       not be taken as vscode extension testing gospel!
@@ -42,7 +45,7 @@
     <p>
       Alright, with our requirements outlined let's dive in! The first critical piece of understanding is how we
       can mock modules inside the test case without directly affecting the piece of code under test. This is where
-      having an understanding of the nodejs import <b>caching system:<a href="#4">4</a></sup></b>
+      having an understanding of the nodejs import <b>caching system <a href="#4">[ 4 ]</a></b>
       comes into play. Using the cache ,to effect extension wide changes, we can do something like this for mocking
       the <b>fs.readFile</b>.
     </p>
