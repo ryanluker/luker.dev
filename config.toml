@@ -1,6 +1,5 @@
 # The URL the site will be built for
-# base_url = "https://www.luker.dev"
-base_url = "https://convert-to-zola.luker-dev.pages.dev"
+base_url = "https://www.luker.dev"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -11,6 +10,10 @@ highlight_code = true
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
+
+# Add an automatic rss 2.0 feed
+generate_feed = true
+feed_filename = "rss.xml"
 
 [extra]
 # Put all your custom variables here

@@ -6,6 +6,9 @@
   <title>luker.dev | A website that contains posts about my projects, thinkings and experiences.</title>
   <link rel="stylesheet" type="text/css" href="{{ get_url(path="basic.css") }}">
   <link rel="icon" href="{{ get_url(path="favicon.ico") }}">
+  {% block rss %}
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
+  {% endblock %}
 </head>
 
 <body>
