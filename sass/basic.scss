@@ -1,8 +1,5 @@
 // Load the Source Serif Pro font
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro");
-body {
-  font-family: "Source Serif Pro", "Helvetica", Arial, sans-serif;
-}
 
 // https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks
 pre {
@@ -33,6 +30,7 @@ pre table {
 }
 
 body {
+  font-family: "Source Serif Pro", "Helvetica", Arial, sans-serif;
   margin: 0 auto;
   max-width: 50em;
   line-height: 1.5;
