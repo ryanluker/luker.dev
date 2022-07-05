@@ -5,7 +5,9 @@ date = 2018-06-27
 
 ### Testing Visual Studio Code Extensions
 
-Testing is a key focus of mine whenever building software, doubly so when people depend on it! Integration testing is a valuable part of the testing pyramid and one that I found difficulty in finding examples to use in [vscode-coverage-gutters](https://github.com/ryanluker/vscode-coverage-gutters). In the next few code snippets I outline some of the integration tests I wrote during development. I also dive into what confidence they provide me, in terms of not breaking current features with future work, along with some of the critical api's I used.
+Testing is a key focus of mine whenever building software, doubly so when people depend on it! Integration testing is a valuable part of the testing pyramid and one that I found difficulty in finding examples to use in [vscode-coverage-gutters](https://github.com/ryanluker/vscode-coverage-gutters).
+
+In the next few code snippets I outline some of the integration tests I wrote during development. I also dive into what confidence they provide me, in terms of not breaking current features with future work, along with some of the critical api's I used.
 
 This first example is rather simple (really just a warmup for us). It tests for the extension being properly started by the testing harness. This allows for me to confirm that the extension activation step has completed successfully.
 
@@ -44,7 +46,9 @@ test("Run display coverage on node test file @integration", async () => {
 
 Many of the steps in this test are for setting up the IDE in a way that allows for the proper running of the `displayCoverage` command. You can see on line 3 we get the exported api provided by vscode-coverage-gutters that will allow us to later fetch the lines of coverage. Next in lines 4-6 we setup the IDE to have the test document open and ready to have coverage displayed.
 
-Finally, you can see we assert that the coverage received from the exported api includes the expect coverage values. A critical piece of this test is the [`getCachedLines`](https://github.com/ryanluker/vscode-coverage-gutters/blob/v2.0.0/src/exportsapi.ts) which stores the last rendered coverage and exports the cache for use in tests or by other extension developers. Usually I would not depend on a cache like this for testing purposes but currently there is no way to inspect what decorations have been displayed to the IDE via the vscode api [[1]](https://github.com/Microsoft/vscode/issues/48364).
+Finally, you can see we assert that the coverage received from the exported api includes the expect coverage values. A critical piece of this test is the [`getCachedLines`](https://github.com/ryanluker/vscode-coverage-gutters/blob/v2.0.0/src/exportsapi.ts) which stores the last rendered coverage and exports the cache for use in tests or by other extension developers.
+
+Usually I would not depend on a cache like this for testing purposes but currently there is no way to inspect what decorations have been displayed to the IDE via the vscode api [[1]](https://github.com/Microsoft/vscode/issues/48364).
 
 A similar example but for the xml-based coverage can be found below as well.
 
