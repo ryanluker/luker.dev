@@ -3,7 +3,7 @@ title = "Testing visual studio code extensions"
 date = 2018-06-27
 +++
 
-### Testing Visual Studio Code Extensions
+# Testing Visual Studio Code Extensions
 
 Testing is a key focus of mine whenever building software, doubly so when people depend on it! Integration testing is a valuable part of the testing pyramid and one that I found difficulty in finding examples to use in [vscode-coverage-gutters](https://github.com/ryanluker/vscode-coverage-gutters).
 
