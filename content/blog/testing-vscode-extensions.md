@@ -4,8 +4,6 @@ date = 2018-06-27
 description = "Real testing of vscode extensions and how to keep code quality high."
 +++
 
-# Testing Visual Studio Code Extensions
-
 Testing is a key focus of mine whenever building software, doubly so when people depend on it! Integration testing is a valuable part of the testing pyramid and one that I found difficulty in finding examples to use in [vscode-coverage-gutters](https://github.com/ryanluker/vscode-coverage-gutters).
 
 In the next few code snippets I outline some of the integration tests I wrote during development. I also dive into what confidence they provide me, in terms of not breaking current features with future work, along with some of the critical api's I used.
