@@ -1,6 +1,7 @@
 +++
 title = "How to unit test vscode extensions with basic mocks"
 date = 2019-09-30
+description = "Manual import mocking with node's module caching system and basic nodejs assertions."
 +++
 
 # How to unit test vscode extensions with basic mocks

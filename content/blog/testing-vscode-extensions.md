@@ -1,6 +1,7 @@
 +++
 title = "Testing visual studio code extensions"
 date = 2018-06-27
+description = "Real testing of vscode extensions and how to keep code quality high."
 +++
 
 # Testing Visual Studio Code Extensions
