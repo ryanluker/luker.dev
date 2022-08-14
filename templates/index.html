@@ -5,6 +5,15 @@
   A website that contains posts around my projects, thinkings and experiences.<br>
   <a href="mailto:ryanluker@outlook.com">ryanluker@outlook.com</a>
 </p>
-<h2><a href="{{ get_url(path="@/blog/_index.md") }}">Blog posts</a></h2>
+
+{% set section = get_section(path="blog/_index.md") %}
+<h1 class="title">Recent blog posts</h1>
+<ul>
+  {% for page in section.pages | slice(start=1, end=5) %}
+  <li><a href="{{ page.permalink | safe }}">{{page.date}} {{ page.title }}</a></li>
+  {% endfor %}
+</ul>
+
+<h2><a href="{{ get_url(path="@/blog/_index.md") }}">All blog posts</a></h2>
 <h2><a href="{{ get_url(path="@/open-source/_index.md") }}">Open source projects</a></h2>
 {% endblock content %}
