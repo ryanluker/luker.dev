@@ -8,6 +8,9 @@
 
 {% set section = get_section(path="blog/_index.md") %}
 <h1 class="title">Recent blog posts</h1>
+<a href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
+  <img src="{{ get_url(path="social_style_3_rss-512-1.png") }}" alt="RSS icon" width="30" height="30">
+</a>
 <ul>
   <!-- https://tera.netlify.app/docs/#slice -->
   {% for page in section.pages | slice(start=0, end=4) %}
