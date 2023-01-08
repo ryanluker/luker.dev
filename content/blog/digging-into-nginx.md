@@ -2,7 +2,7 @@
 title = "Digging into nginx by taking a peek under the hood"
 draft = true
 date = 2023-01-30
-description = "Nginx is something I have used but never deeping understood. I find I learn best by doing and digging into source code, so this post will keep track of my learnings as I stumble around."
+description = "Nginx is something I have used but never deeply understood. I find I learn best by doing and digging into source code, so this post will keep track of my learnings as I stumble around."
 +++
 
 ### Intro
@@ -13,7 +13,8 @@ description = "Nginx is something I have used but never deeping understood. I fi
 
 ### Body
 - broken down into learning segments
-  - nginx mostly known for being a reverse proxy
+  - nginx as a reverse proxy
+  - https://www.loadbalancer.org/blog/what-exactly-is-a-reverse-proxy/
 - nginx with basic setup infront of a web server
   - https://nodejs.org/en/docs/guides/getting-started-guide/
   - setup basic linode server (alpine?)
