@@ -49,3 +49,16 @@ h2 {
   margin-top: 1em;
   padding-top: 1em;
 }
+
+// Basic a href styling for usability
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+a:focus {
+  border-bottom: 1px solid;
+}
+a:hover {
+  border-bottom: 1px solid;
+}
