@@ -6,7 +6,6 @@
   <title>luker.dev | {% block title %}Home{% endblock %}</title>
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="{% block description %}A website that contains posts about my projects, thinkings and experiences.{% endblock %}">
-  <link rel="stylesheet" type="text/css" href="{{ get_url(path='basic-2022-08-14.css') }}" defer>
   <link rel="icon" href="{{ get_url(path='favicon.ico') }}">
   {% block rss %}
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
@@ -22,6 +21,7 @@
       {% block content %} {% endblock %}
     </div>
   </section>
+  <link rel="stylesheet" type="text/css" href="{{ get_url(path='basic-2022-08-14.css') }}">
 </body>
 
 </html>
