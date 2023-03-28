@@ -27,3 +27,6 @@ description = "Nginx is something I have used but never deeply understood. I fin
 - rollup learnings
 - re-iterate intro statements
 - call to action for comments in github
+
+### Research
+- Good example article https://levelup.gitconnected.com/content-delivery-network-cnd-explained-in-simple-words-674e971b06c3
