@@ -1,1 +1,4 @@
 public
+# Don't track zola and tarball
+zola
+zola-*
