@@ -12,21 +12,3 @@ jobs:
           tar -xf zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
       - name: zola check
         run: ./zola check
-  lhci:
-    name: Lighthouse
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - name: setup zola
-        run: |
-          wget https://github.com/getzola/zola/releases/download/v0.12.2/zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
-          tar -xf zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
-
-      - name: run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.13.x
-          lhci autorun --collect.url="http://127.0.0.1:1111/index.html" --collect.startServerCommand="./zola serve --base-url /" --upload.target="temporary-public-storage"
