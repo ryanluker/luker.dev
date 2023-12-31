@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="{% block description %}A website that contains posts about my projects, thinkings and experiences.{% endblock %}">
   <link rel="icon" href="{{ get_url(path='favicon.ico') }}">
-  {% set css = load_data(path='public/basic-2022-08-14.css') %}
+  {% set css = load_data(path='css/basic-2022-08-14.css') %}
   <style>{{ css | safe }}</style>
   {% block rss %}
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">

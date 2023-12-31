@@ -1,0 +1,14 @@
+name: CI
+on: [push]
+jobs:
+  zola-check:
+    name: Zola URL Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup zola
+        run: |
+          wget https://github.com/getzola/zola/releases/download/v0.12.2/zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
+          tar -xf zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
+      - name: zola check
+        run: ./zola check

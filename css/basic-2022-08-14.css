@@ -1,30 +1,35 @@
-// Load the Source Serif Pro font with display fallback
+/* Load the Source Serif Pro font with display fallback */
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
 
-// https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks
+/* https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks */
 pre {
   padding: 1rem;
   overflow: auto;
   border-radius: 0.5rem;
 }
-// The line numbers already provide some kind of left/right padding
+
+/* The line numbers already provide some kind of left/right padding */
 pre[data-linenos] {
   padding: 1rem 0;
 }
+
 pre table td {
   padding: 0;
 }
-// The line number cells
+
+/* The line number cells */
 pre table td:nth-of-type(1) {
   text-align: center;
   user-select: none;
 }
+
 pre mark {
-  // If you want your highlights to take the full width.
+  /* If you want your highlights to take the full width. */
   display: block;
-  // The default background colour of a mark is bright yellow
+  /* The default background colour of a mark is bright yellow */
   background-color: rgba(254, 252, 232, 0.9);
 }
+
 pre table {
   width: 100%;
   border-collapse: collapse;
@@ -50,12 +55,13 @@ h2 {
   padding-top: 1em;
 }
 
-// Basic a href styling for usability
+/* Basic a href styling for usability */
 a {
   outline: none;
   text-decoration: none;
   padding: 2px 1px 0;
 }
+
 a {
   &:focus,
   &:hover {
