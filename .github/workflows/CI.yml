@@ -29,4 +29,4 @@ jobs:
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.13.x
-          lhci autorun --collect.url="http://127.0.0.1:1111" --collect.startServerCommand="./zola serve --base-url /" --collect.staticDistDir=public --upload.target="temporary-public-storage"
+          lhci autorun --collect.url="http://127.0.0.1:1111/index.html" --collect.startServerCommand="./zola serve --base-url /" --upload.target="temporary-public-storage"
