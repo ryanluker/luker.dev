@@ -1,16 +1,10 @@
 /* Load the Source Serif Pro font with display fallback */
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
 
-/* https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks */
 pre {
   padding: 1rem;
   overflow: auto;
   border-radius: 0.5rem;
-}
-
-/* The line numbers already provide some kind of left/right padding */
-pre[data-linenos] {
-  padding: 1rem 0;
 }
 
 pre table td {
