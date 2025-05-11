@@ -44,7 +44,6 @@ def main() -> None:
         basic_css_path = os.path.join('./css', 'basic-2022-08-14.css')
         with open(basic_css_path, 'r', encoding='utf-8') as file:
             basic_2022_08_14_css = file.read()
-
         # Load the raw CSS into the style tag slot
         html_content = html_content.replace('{{ basic-2022-08-14.css }}', basic_2022_08_14_css)
 
@@ -69,7 +68,15 @@ def main() -> None:
         index_html += f'<li><a href="/public/{post_code}.html">{title}</a></li>'
     index_html = template.replace('{{ content }}', index_html)
     index_html = index_html.replace('{{ title }}', "Index")
-    index_path = "index.html"
+
+    # Read the CSS file
+    basic_css_path = os.path.join('./css', 'basic-2022-08-14.css')
+    with open(basic_css_path, 'r', encoding='utf-8') as file:
+        basic_2022_08_14_css = file.read()
+    # Load the raw CSS into the style tag slot
+    html_content = html_content.replace('{{ basic-2022-08-14.css }}', basic_2022_08_14_css)
+
+    index_path = os.path.join(output_dir, "index.html")
     with open(index_path, 'w', encoding='utf-8') as file:
         file.write(index_html)
     print(f"Rendered index.html")

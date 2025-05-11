@@ -10,7 +10,6 @@
   <style>/* Load the Source Serif Pro font with display fallback */
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
 
-/* https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks */
 pre {
   padding: 1rem;
   overflow: auto;
@@ -83,8 +82,9 @@ a {
     <div class="container">
       <h1 id="how-to-unit-test-vscode-extensions-with-basic-mocks">How to unit test vscode extensions with basic mocks</h1>
 
-<p>2019-09-30
-Manual import mocking with node's module caching system and basic nodejs assertions.</p>
+<p><strong>2019-09-30</strong></p>
+
+<h3 id="manual-import-mocking-with-nodes-module-caching-system-and-basic-nodejs-assertions">Manual import mocking with node's module caching system and basic nodejs assertions.</h3>
 
 <p>One of the major tools in any testers toolbelt is the mighty module mock. So when I started looking into adding proper unit tests to my vscode extension, I surprisingly had quite a difficult time finding something that would work gracefully with vscode's test harness. Seeming I have also been tinkering with go and the absolutely fantastic gitbook <a href="https://quii.gitbook.io/learn-go-with-tests/">learn-go-with-tests</a>, I decided to try my hand at creating a simple mocking structure for <a href="https://github.com/ryanluker/vscode-coverage-gutters">vscode-coverage-gutters</a>.</p>
 
