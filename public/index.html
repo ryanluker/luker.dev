@@ -7,7 +7,71 @@
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="A website that contains posts about my projects, thinkings and experiences.">
   <link rel="icon" href="">
-  <style>{{ basic-2022-08-14.css }}</style>
+  <style>/* Load the Source Serif Pro font with display fallback */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
+
+pre {
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+}
+
+pre table td {
+  padding: 0;
+}
+
+/* The line number cells */
+pre table td:nth-of-type(1) {
+  text-align: center;
+  user-select: none;
+}
+
+pre mark {
+  /* If you want your highlights to take the full width. */
+  display: block;
+  /* The default background colour of a mark is bright yellow */
+  background-color: rgba(254, 252, 232, 0.9);
+}
+
+pre table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body {
+  font-family: "Source Serif Pro", "Helvetica", Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 1em;
+  color: #566b78;
+}
+
+h1,
+h2,
+strong {
+  color: #303b42;
+}
+
+h2 {
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+/* Basic a href styling for usability */
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+a {
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}
+</style>
 </head>
 
 <body>

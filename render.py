@@ -8,18 +8,8 @@
 import os
 import markdown2
 
-def main() -> None:
-    # Define the directory containing the Markdown files
-    posts_dir = './content/blog'
-    output_dir = './public'
 
-    # Read base.html
-    with open("templates/base.html", 'r', encoding='utf-8') as file:
-        template = file.read()
-
-    # Create output directory if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
-
+def render_posts(output_dir, posts_dir, template):
     # Iterate over all dirs in the posts directory
     for post_directory in os.listdir(posts_dir):
         post_code = post_directory
@@ -56,9 +46,10 @@ def main() -> None:
             file.write(html_content)
         print(f"Rendered {post_code} to {html_filename}")
 
+
+def render_index(output_dir, posts_dir, template):
     # Render index.html
     index_html = ""
-
     for post_directory in os.listdir(posts_dir):
         post_code = post_directory
         file_path = os.path.join(posts_dir, post_directory)
@@ -74,12 +65,28 @@ def main() -> None:
     with open(basic_css_path, 'r', encoding='utf-8') as file:
         basic_2022_08_14_css = file.read()
     # Load the raw CSS into the style tag slot
-    html_content = html_content.replace('{{ basic-2022-08-14.css }}', basic_2022_08_14_css)
+    index_html = index_html.replace('{{ basic-2022-08-14.css }}', basic_2022_08_14_css)
 
     index_path = os.path.join(output_dir, "index.html")
     with open(index_path, 'w', encoding='utf-8') as file:
         file.write(index_html)
     print(f"Rendered index.html")
+
+
+def main() -> None:
+    # Define the directory containing the Markdown files
+    posts_dir = './content/blog'
+    output_dir = './public'
+
+    # Read base.html
+    with open("templates/base.html", 'r', encoding='utf-8') as file:
+        template = file.read()
+
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    render_posts(output_dir, posts_dir, template)
+    render_index(output_dir, posts_dir, template)
 
 
 if __name__ == "__main__":
