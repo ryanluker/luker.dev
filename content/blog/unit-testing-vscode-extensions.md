@@ -1,8 +1,6 @@
-+++
-title = "How to unit test vscode extensions with basic mocks"
-date = 2019-09-30
-description = "Manual import mocking with node's module caching system and basic nodejs assertions."
-+++
+# How to unit test vscode extensions with basic mocks
+2019-09-30
+Manual import mocking with node's module caching system and basic nodejs assertions.
 
 One of the major tools in any testers toolbelt is the mighty module mock. So when I started looking into adding proper unit tests to my vscode extension, I surprisingly had quite a difficult time finding something that would work gracefully with vscode's test harness. Seeming I have also been tinkering with go and the absolutely fantastic gitbook [learn-go-with-tests](https://quii.gitbook.io/learn-go-with-tests/), I decided to try my hand at creating a simple mocking structure for [vscode-coverage-gutters](https://github.com/ryanluker/vscode-coverage-gutters).
 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>luker.dev | Testing visual studio code extensions</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="A website that contains posts about my projects, thinkings and experiences.">
+  <link rel="icon" href="">
+  <style>/* Load the Source Serif Pro font with display fallback */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
+
+/* https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks */
+pre {
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+}
+
+/* The line numbers already provide some kind of left/right padding */
+pre[data-linenos] {
+  padding: 1rem 0;
+}
+
+pre table td {
+  padding: 0;
+}
+
+/* The line number cells */
+pre table td:nth-of-type(1) {
+  text-align: center;
+  user-select: none;
+}
+
+pre mark {
+  /* If you want your highlights to take the full width. */
+  display: block;
+  /* The default background colour of a mark is bright yellow */
+  background-color: rgba(254, 252, 232, 0.9);
+}
+
+pre table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body {
+  font-family: "Source Serif Pro", "Helvetica", Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 1em;
+  color: #566b78;
+}
+
+h1,
+h2,
+strong {
+  color: #303b42;
+}
+
+h2 {
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+/* Basic a href styling for usability */
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+a {
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}
+</style>
+</head>
+
+<body>
+  <h1>
+    <a href="/">luker.dev</a>
+  </h1>
+  <section class="section">
+    <div class="container">
+      <h1 id="testing-visual-studio-code-extensions">Testing visual studio code extensions</h1>
+
+<p>2018-06-27
+Real testing of vscode extensions and how to keep code quality high.</p>
+
+<p>Testing is a key focus of mine whenever building software, doubly so when people depend on it! Integration testing is a valuable part of the testing pyramid and one that I found difficulty in finding examples to use in <a href="https://github.com/ryanluker/vscode-coverage-gutters">vscode-coverage-gutters</a>.</p>
+
+<p>In the next few code snippets I outline some of the integration tests I wrote during development. I also dive into what confidence they provide me, in terms of not breaking current features with future work, along with some of the critical api's I used.</p>
+
+<p>This first example is rather simple (really just a warmup for us). It tests for the extension being properly started by the testing harness. This allows for me to confirm that the extension activation step has completed successfully.</p>
+
+<pre><code>test("Should start extension @integration", async () =&gt; {
+    const started = vscode.extensions.getExtension(
+        "ryanluker.vscode-coverage-gutters",
+    ).isActive;
+    assert.equal(started, true);
+});
+</code></pre>
+
+<p>It uses the <a href="https://code.visualstudio.com/docs/extensionAPI/vscode-api#extensions.getExtension">getExtension</a> function on the vscode api to fetch information about the installed extension. I then simply assert that it is active and ready to accept commands.</p>
+
+<p>The next example is much more complex and provides a lot of coverage to many areas of the extension such as the file loader, coverage generation, lcov parser, etc. The goal of the test is to confirm that when a file is opened in the IDE (this file must also have coverage in the <a href="https://github.com/ryanluker/vscode-coverage-gutters/tree/master/example/node">example project</a>) we check that the code coverage lines have been calculated with the expected values.</p>
+
+<pre><code>test("Run display coverage on node test file @integration", async () =&gt; {
+    const extension = await vscode.extensions.getExtension("ryanluker.vscode-coverage-gutters");
+    const getCachedLines = extension.exports;
+    const testCoverage = await vscode.workspace.findFiles("**/test-coverage.js", "**/node_modules/**");
+    const testDocument = await vscode.workspace.openTextDocument(testCoverage[0]);
+    const testEditor = await vscode.window.showTextDocument(testDocument);
+    await vscode.commands.executeCommand("extension.displayCoverage");
+
+    // Wait for decorations to load
+    await sleep(2000);
+
+    // Look for exact coverage on the file
+    const cachedLines: ICoverageLines = getCachedLines();
+    assert.equal(14, cachedLines.full.length);
+    assert.equal(4, cachedLines.none.length);
+    assert.equal(7, cachedLines.partial.length);
+});
+</code></pre>
+
+<p>Many of the steps in this test are for setting up the IDE in a way that allows for the proper running of the <code>displayCoverage</code> command. You can see on line 3 we get the exported api provided by vscode-coverage-gutters that will allow us to later fetch the lines of coverage. Next in lines 4-6 we setup the IDE to have the test document open and ready to have coverage displayed.</p>
+
+<p>Finally, you can see we assert that the coverage received from the exported api includes the expect coverage values. A critical piece of this test is the <a href="https://github.com/ryanluker/vscode-coverage-gutters/blob/v2.0.0/src/exportsapi.ts"><code>getCachedLines</code></a> which stores the last rendered coverage and exports the cache for use in tests or by other extension developers.</p>
+
+<p>Usually I would not depend on a cache like this for testing purposes but currently there is no way to inspect what decorations have been displayed to the IDE via the vscode api <a href="https://github.com/Microsoft/vscode/issues/48364">[1]</a>.</p>
+
+<p>A similar example but for the xml-based coverage can be found below as well.</p>
+
+<pre><code>test("Run display coverage on python test file @integration", async () =&gt; {
+    const extension = await vscode.extensions.getExtension("ryanluker.vscode-coverage-gutters");
+    const getCachedLines = extension.exports;
+    const testCoverage = await vscode.workspace.findFiles("**/bar/a.py", "**/node_modules/**");
+    const testDocument = await vscode.workspace.openTextDocument(testCoverage[0]);
+    const testEditor = await vscode.window.showTextDocument(testDocument);
+    await vscode.commands.executeCommand("extension.displayCoverage");
+
+    // Wait for decorations to load
+    await sleep(2000);
+
+    // Look for exact coverage on the file
+    const cachedLines: ICoverageLines = getCachedLines();
+    assert.equal(3, cachedLines.full.length);
+    assert.equal(3, cachedLines.none.length);
+});
+</code></pre>
+
+<p>You can find all of the example test snippets above in <a href="https://github.com/ryanluker/vscode-coverage-gutters/blob/v2.0.0/test/extension.test.ts"><code>extension.test.ts</code></a>, hopefully they provide useful examples to allow others to test their vscode extensions.</p>
+
+<p>If you wish to chat about this blog post, you can find the link below!
+<a href="https://github.com/ryanluker/luker.dev/discussions/12"><code>Github Discussion</code></a></p>
+
+    </div>
+  </section>
+</body>
+
+</html>

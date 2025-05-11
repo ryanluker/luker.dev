@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>luker.dev | How to unit test vscode extensions with basic mocks</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="A website that contains posts about my projects, thinkings and experiences.">
+  <link rel="icon" href="">
+  <style>/* Load the Source Serif Pro font with display fallback */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
+
+/* https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks */
+pre {
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+}
+
+/* The line numbers already provide some kind of left/right padding */
+pre[data-linenos] {
+  padding: 1rem 0;
+}
+
+pre table td {
+  padding: 0;
+}
+
+/* The line number cells */
+pre table td:nth-of-type(1) {
+  text-align: center;
+  user-select: none;
+}
+
+pre mark {
+  /* If you want your highlights to take the full width. */
+  display: block;
+  /* The default background colour of a mark is bright yellow */
+  background-color: rgba(254, 252, 232, 0.9);
+}
+
+pre table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body {
+  font-family: "Source Serif Pro", "Helvetica", Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 1em;
+  color: #566b78;
+}
+
+h1,
+h2,
+strong {
+  color: #303b42;
+}
+
+h2 {
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+/* Basic a href styling for usability */
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+a {
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}
+</style>
+</head>
+
+<body>
+  <h1>
+    <a href="/">luker.dev</a>
+  </h1>
+  <section class="section">
+    <div class="container">
+      <h1 id="how-to-unit-test-vscode-extensions-with-basic-mocks">How to unit test vscode extensions with basic mocks</h1>
+
+<p>2019-09-30
+Manual import mocking with node's module caching system and basic nodejs assertions.</p>
+
+<p>One of the major tools in any testers toolbelt is the mighty module mock. So when I started looking into adding proper unit tests to my vscode extension, I surprisingly had quite a difficult time finding something that would work gracefully with vscode's test harness. Seeming I have also been tinkering with go and the absolutely fantastic gitbook <a href="https://quii.gitbook.io/learn-go-with-tests/">learn-go-with-tests</a>, I decided to try my hand at creating a simple mocking structure for <a href="https://github.com/ryanluker/vscode-coverage-gutters">vscode-coverage-gutters</a>.</p>
+
+<p>This was in contrast to using something established like <a href="https://sinonjs.org">sinon</a>. Big warning before I dive in though, this implementation works well for this specific use case but should not be taken as vscode extension testing gospel!</p>
+
+<p>Let's quickly breakdown the problem before we go into our very basic mocking implementation.</p>
+
+<ol>
+<li>We need a way to mock module functionality that are used inside our extension (vscode, requests, etc).</li>
+<li>We need to swap the current functionality of the module with our test expectation</li>
+<li>Once we have completed a test case, we need to clean up after ourselves to prevent test leakage.</li>
+</ol>
+
+<p>Alright, with our requirements outlined let's dive in! The first critical piece of understanding is how we can mock modules inside the test case without directly affecting the piece of code under test. This is where having an understanding of the nodejs import <a href="https://nodejs.org/api/modules.html#modules_caching">caching system</a> comes into play. Using the cache, to effect extension wide changes, we can do something like this for mocking the <code>fs.readFile</code>.</p>
+
+<pre><code>import * as assert from "assert";
+import * as fs from "fs";
+
+// Original functions
+const readFile = fs.readFile;
+
+teardown(function() {
+    (fs as any).readFile = readFile;
+});
+
+test("#load: Should reject when readFile returns an error @unit", function(done) {
+    const readFile = function(path: string, cb) {
+        assert.equal(path, "pathtofile");
+        const error: NodeJS.ErrnoException = new Error("could not read from fs");
+        return cb(error, Buffer.from(""));
+    };
+    (fs as any).readFile = readFile;
+
+    const coverage = new Coverage(
+        fakeConfig,
+    );
+});
+</code></pre>
+
+<p>Let's break this example up a bit so we can understand the 3 stages of the module mocking.</p>
+
+<pre><code>// Original functions
+const readFile = fs.readFile;
+
+teardown(function() {
+    (fs as any).readFile = readFile;
+});
+</code></pre>
+
+<p>In the first stage we store the original function so that we can "restore" this module to an original state later. You can see this restoring action in the teardown snippet, which runs after each test case has been completed.</p>
+
+<p>Next we see us changing the functionality of the <code>readFile</code>.</p>
+
+<pre><code>const readFile = function(path: string, cb) {
+    assert.equal(path, "pathtofile");
+    const error: NodeJS.ErrnoException = new Error("could not read from fs");
+    return cb(error, Buffer.from(""));
+};
+(fs as any).readFile = readFile;
+</code></pre>
+
+<p>After this point any call to <code>fs.readFile</code> in any code flow, we really only care about the functionality under test though, will utilise the test function defined just above. This state will persist for the rest of test case until the teardown is called and restores the stored original functionality.</p>
+
+<p>You can find this and more mocking examples <a href="https://github.com/ryanluker/vscode-coverage-gutters/pull/218/files">here</a>.</p>
+
+<p>Wrapping up, we see that using the node module caching allows us to "swap" out functionality of specific modules for mock flows that help us verify code under test. This clean approach of storing the original functionality, modifying the functionality with a mock and finally restoring the module to an original state, feels like quick a succinct pattern. Also it allows us to accomplish our main goal of testing exactly the conditional nuance we want in each test case.</p>
+
+<p>I love to discuss technical implementations so drop a comment in the <a href="https://github.com/ryanluker/luker.dev/discussions/13">Github Discussion</a> if you have any advice or questions!</p>
+
+    </div>
+  </section>
+</body>
+
+</html>

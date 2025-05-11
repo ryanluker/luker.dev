@@ -2,23 +2,27 @@
 
 Git repository and discussion area for my personal blog.
 
-### Install
+### Install UV
+https://docs.astral.sh/uv/getting-started/installation/#installation-methods
 ```
-wget https://github.com/getzola/zola/releases/download/v0.12.2/zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
-tar -xf zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz
+pipx install uv
 ```
 
 ### Local build and serve
-https://www.getzola.org/documentation/getting-started/cli-usage/#serve  
-`zola serve`
+```
+uv install
+uv run render.py
+```
 
-### URL Staleness checkings
-`zola check`
+### Publish
+```
+uv run render
+```
 
 ### Cloudflare Pages
 ```
 Build command:
-zola build
+exit 0
 
 Build output directory:
 /public
@@ -29,4 +33,3 @@ Root directory:
 Build comments on pull requests:
 Enabled
 ```
-`ZOLA_VERSION` -> 0.12.2
