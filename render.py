@@ -9,11 +9,9 @@ import os
 import markdown2
 
 
-def render_post(output_dir, posts_dir, template):
-    post_code = post_directory
-
+def render_post(output_dir, posts_dir, template, post_code):
     # Construct full file path
-    file_path = os.path.join(posts_dir, post_directory)
+    file_path = os.path.join(posts_dir, post_code)
 
     # Read the Markdown file
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -48,7 +46,7 @@ def render_post(output_dir, posts_dir, template):
 def render_posts(output_dir, posts_dir, template):
     # Iterate over all dirs in the posts directory
     for post_directory in os.listdir(posts_dir):
-        render_post(output_dir, posts_dir, template)
+        render_post(output_dir, posts_dir, template, post_directory)
 
 
 def render_index(output_dir, posts_dir, template):
