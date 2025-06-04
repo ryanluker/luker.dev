@@ -75,7 +75,7 @@ def render_index(output_dir, posts_dir, template):
     print(f"Rendered index.html")
 
 
-def main() -> None:
+def main():
     # Define the directory containing the Markdown files
     posts_dir = './content/blog'
     output_dir = './public'
