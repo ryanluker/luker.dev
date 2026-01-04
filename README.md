@@ -1,3 +1,5 @@
+Archive Note: Historical cloudflare pages zola blog, moved to bearblog in 2026.
+
 ![Blog CI](https://github.com/ryanluker/luker.dev/actions/workflows/CI.yml/badge.svg?branch=main)
 
 Git repository and discussion area for my personal blog.
